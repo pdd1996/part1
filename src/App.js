@@ -1,8 +1,13 @@
+import Hello from "./Hello";
 
 function App() {
+
   return (
     <div className="App">
-      <p>Hello Reactjs</p>
+      <h1>Greeting</h1>
+      <Hello />
+      <Hello />
+      <Hello />
     </div>
   );
 }
