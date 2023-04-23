@@ -5,9 +5,9 @@ function App() {
   return (
     <div className="App">
       <h1>Greeting</h1>
-      <Hello />
-      <Hello />
-      <Hello />
+      <Hello name="zhangsan" />
+      <Hello name="lisi" />
+      <Hello name="wangwu" />
     </div>
   );
 }
