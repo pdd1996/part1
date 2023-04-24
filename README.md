@@ -1,70 +1,221 @@
-# Getting Started with Create React App
+# React 简介
+#### create-react-app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```javascript
+npx create-react-app part1
+cd part1
 
-## Available Scripts
+npm run start
 
-In the project directory, you can run:
+// localhost:3000
+```
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### index.js联系着index.html和App.js，将App.js内容渲染到id为root的div中
 
-### `npm test`
+```html
+// index.html
+// 位于public文件夹中
+<html lang="en">
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```react
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
 
-### `npm run build`
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```react
+// App_Back.js
+function App() {
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  return (
+    <div className="App">
+      <h1>Greeting</h1>
+    </div>
+  );
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export default App;
+```
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### react组件
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+组件 - 当使用react时，所有需要渲染的内容
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```react
+const App = () => (
+  <div>
+    <p>Hello world</p>
+  </div>
+)
 
-## Learn More
+// 修改APP组件，增加计算
+const App = () => {
+  const now = new Date()
+  const a = 10
+  const b = 20
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  return (
+    <div>
+      <p>Hello world, it is {now.toString()}</p>
+      <p>
+        {a} plus {b} is {a + b}
+      </p>
+    </div>
+  )
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### 视角
 
-### Code Splitting
+1. 直观角度 - 内容div和p
+2. 技术角度 - JavaScript函数，并将这个函数分配给常量App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### JSX
 
-### Making a Progressive Web App
+组件编写的代码块，类似html
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+本质jsx - 处理一种写JavaScript的方式，react组件返回的jsx被编译成JavaScript
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+**注意**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. JSX是"XML-like"语言，这意味着每个标签都需要被**关闭**
 
-### `npm run build` fails to minify
+2. React组件名称必须**大写**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```react
+// babel进行编译
+const App = () => {
+  const now = new Date()
+  const a = 10
+  const b = 20
+  return React.createElement(
+    'div',
+    null,
+    React.createElement(
+      'p', null, 'Hello world, it is ', now.toString()
+    ),
+    React.createElement(
+      'p', null, a, ' plus ', b, ' is ', a + b
+    )
+  )
+}
+```
+
+
+
+#### Props
+
+组件传值
+
+```react
+// App_Back.js
+import Hello from "./Hello";
+
+function App() {
+  const name = "ls"
+  const age = 18
+  return (
+    <div className="App">
+      <h1>Greeting</h1>
+      <Hello name="zs" age={14 + 3} />
+      <Hello name={name} age={age}/>
+    </div>
+  );
+}
+
+export default App;
+// 组件App发送的props是变量的值、表达式的计算结果和一个常规字符串
+```
+
+```react
+// Hello.js
+const Hello = (props) => {
+	return (
+		<div>
+			<h1>Hello {props.name}, your age {props.age} </h1>
+		</div>
+	)
+}
+
+export default Hello;
+```
+
+
+
+# JavaScript
+
+#### 变量
+
+1. const 
+2. let
+
+#### 数组
+
+const 数组为什么可以变化？
+
+尽管它被定义为*const*。因为数组是一个对象，这个变量总是指向同一个对象
+
+函数式编程特点 - **不可逆**
+
+在React代码中，最好使用*concat*方法，该方法不会将项目添加到数组中，而是创建一个新的数组，其中同时包含旧数组和新项目的内容。
+
+1. concat
+2. map
+3. ...
+
+#### 对象
+
+```javascript
+const object = {
+  name: {
+    first: 'Dan',
+    last: 'Abramov',
+  },
+  age: 35,
+  grades: [2, 3, 5, 3],
+  department: 'Stanford University',
+}
+// 对象的属性 整数、字符串、数组、对象
+```
+
+```javascript
+// 访问对象
+console.log(object.name)         // Arto Hellas is printed
+const fieldName = 'age'
+console.log(object1[fieldName])    // 35 is printed
+```
+
+```javascript
+// 增加属性
+object1.address = 'Helsinki'
+object1['secret number'] = 12341
+```
+
+#### 方法
+
+1. 函数申明式
+2. 函数表达式
+
+3. 箭头函数
+
