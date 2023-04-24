@@ -4,7 +4,7 @@ import Total from "./components/Total";
 
 // 1.5
 // 数组和对象的整和
-function App() {
+function App_Back() {
   const course = {
     name: 'Half Stack application development',
     parts: [
@@ -32,5 +32,5 @@ function App() {
   )
 }
 
-export default App;
+export default App_Back;
 

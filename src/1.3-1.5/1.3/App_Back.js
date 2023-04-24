@@ -23,7 +23,7 @@ function App_Back() {
     <div>
       <Header course={course} />
       <Content part1_name={part1.name} part2_name={part2.name} part3_name={part3.name} exercises1={part1.exercises} exercises2={part2.exercises} exercises3={part3.exercises}/>
-      <Total exercises={part1.exercises + part2.exercises + part3.exercises } />
+      <Total total={part1.exercises + part2.exercises + part3.exercises } />
     </div>
   )
 }
