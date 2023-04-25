@@ -2,9 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
+let count = 1;
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const refresh = () => root.render(
   <React.StrictMode>
-    <App />
+    <App count={count} />
   </React.StrictMode>
 );
+
+setInterval(() => {
+  refresh()
+  count += 1
+}, 1000)

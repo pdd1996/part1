@@ -1,14 +1,12 @@
 import Hello from "./Hello";
 
-const App = () => {
-  const name = 'Peter'
-  const age = 15
+const App = (props) => {
+  const { count } = props;
 
   return (
     <div>
       <h1>Greetings</h1>
-      <Hello name="Maya" age={26 + 10} />
-      <Hello name={name} age={age} />
+     <div>{ count }</div>
     </div>
   )
 }
