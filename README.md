@@ -219,3 +219,166 @@ object1['secret number'] = 12341
 
 3. 箭头函数
 
+# 组件状态
+
+#### 组件内部事件和解构
+
+```react
+const Hello = (props) => {
+	const { name, age } = props;
+	const year = new Date().getFullYear();
+
+	const bornYear = () => year - age;
+
+	return (
+		<div>
+			<p>
+				Hello {name}, you are {age} years old
+			</p>
+			<p>you born in {bornYear()}</p>
+		</div>
+	)
+}
+
+export default Hello;
+```
+
+```react
+// 进一步结构 将props的内容解构到形参上
+const Hello = ({name, age}) => {
+	const year = new Date().getFullYear();
+
+	const bornYear = () => year - age;
+
+	return (
+		<div>
+			<p>
+				Hello {name}, you are {age} years old
+			</p>
+			<p>you born in {bornYear()}</p>
+		</div>
+	)
+}
+
+export default Hello;
+```
+
+#### 重复渲染组件
+
+```javascript
+// 不推荐
+setInterval(() => {
+  refresh()
+  counter += 1
+}, 1000)
+```
+
+```react
+// useState对组件进行改进
+// counter变量被分配了state的初始值，即0。变量setCounter被分配给一个函数，该函数将被用来修改状态。
+import {useState} from "react";
+
+const App = () => {
+  const [ count, setCount ] = useState(0);
+
+  setTimeout(
+    () => setCount(count + 1), 1000
+  )
+
+  return (
+    <div>
+      <h1>Greetings</h1>
+     <div>{ count }</div>
+    </div>
+  )
+}
+
+export default App;
+```
+
+#### React事件
+
+```react
+// 第一种
+const App = () => {
+  const [ counter, setCounter ] = useState(0)
+
+  const handleClick = () => {
+    console.log('clicked')
+  }
+
+  return (
+    <div>
+      <div>{counter}</div>
+      <button onClick={handleClick}>
+        plus
+      </button>
+    </div>
+  )
+}
+
+// 第二种
+const App = () => {
+  const [ counter, setCounter ] = useState(0)
+
+  return (
+    <div>
+      <div>{counter}</div>
+      <button onClick={() => console.log('clicked')}>
+        plus
+      </button>
+    </div>
+  )
+}
+```
+
+#### 状态提升 - 重点
+
+*通常，几个组件需要反映相同的变化数据。我们建议将共享状态提升到它们最接近的共同祖先。*
+
+```react
+// 所有处理counter的，都要使用setCounter函数来处理
+// App.js
+const App = () => {
+  const [ counter, setCounter ] = useState(0)
+
+  const increaseByOne = () => setCounter(counter + 1)
+  const decreaseByOne = () => setCounter(counter - 1)
+  const setToZero = () => setCounter(0)
+
+  return (
+    <div>
+      <Display counter={counter}/>
+      <Button
+        onClick={increaseByOne}
+        text='plus'
+      />
+      <Button
+        onClick={setToZero}
+        text='zero'
+      />
+      <Button
+        onClick={decreaseByOne}
+        text='minus'
+      />
+    </div>
+  )
+}
+
+// Display.js
+const Display = (props) => {
+  return (
+    <div>{props.counter}</div>
+  )
+}
+
+// Button.js
+const Button = (props) => {
+  return (
+    <button onClick={props.onClick}>
+      {props.text}
+    </button>
+  )
+}
+```
+
