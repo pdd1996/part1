@@ -39,7 +39,7 @@ root.render(
 ```
 
 ```react
-// App_Back.js
+// App.js
 function App() {
 
   return (
@@ -129,7 +129,7 @@ const App = () => {
 组件传值
 
 ```react
-// App_Back.js
+// App.js
 import Hello from "./Hello";
 
 function App() {
