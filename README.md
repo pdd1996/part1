@@ -382,3 +382,109 @@ const Button = (props) => {
 }
 ```
 
+#### 使用对象
+
+```react
+const App = () => {
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+
+  return (
+    <div>
+      {left}
+      <button onClick={() => setLeft(left + 1)}>
+        left
+      </button>
+      <button onClick={() => setRight(right + 1)}>
+        right
+      </button>
+      {right}
+    </div>
+  )
+}
+```
+
+```react
+// 改进
+import {useState} from "react";
+
+function App() {
+  const [clicks, setClicks] = useState({
+    left: 0,
+    right: 0
+  })
+
+  const handleLeftClick = () => {
+    const newClicks = {
+      left: clicks.left + 1,
+      right: clicks.right
+    }
+    setClicks(newClicks)
+  }
+
+  const handleRightClick = () => {
+    const newClicks = {
+      left: clicks.left,
+      right: clicks.right + 1
+    }
+    setClicks(newClicks)
+  }
+
+  return (
+    <div>
+      {clicks.left}
+      <button onClick={handleLeftClick}>left</button>
+      {clicks.right}
+      <button onClick={handleRightClick}>right</button>
+    </div>
+  )
+}
+
+export default App;
+```
+
+#### 对象传播
+
+现在*left*属性的新值与前一个状态的*left + 1*的值相同，而*right*属性的值与前一个状态的*right*的值相同。
+
+我们可以通过使用[对象传播](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)来更整齐地定义新的状态对象。
+
+```react
+import {useState} from "react";
+
+function App() {
+  const [clicks, setClicks] = useState({
+    left: 0,
+    right: 0
+  })
+
+  const handleLeftClick = () => {
+    const newClicks = {
+      ...clicks,
+      left: clicks.left + 1
+    }
+    setClicks(newClicks)
+  }
+
+  const handleRightClick = () => {
+    const newClicks = {
+      ...clicks,
+      right: clicks.right + 1
+    }
+    setClicks(newClicks)
+  }
+
+  return (
+    <div>
+      {clicks.left}
+      <button onClick={handleLeftClick}>left</button>
+      {clicks.right}
+      <button onClick={handleRightClick}>right</button>
+    </div>
+  )
+}
+
+export default App;
+```
+
+*在React中是禁止直接改变状态的*，因为[它可能导致意想不到的副作用](https://stackoverflow.com/a/66799937/10012446)。改变状态必须始终通过将状态设置为一个新的对象来完成。如果前一个状态对象的属性没有改变，它们需要简单地复制，这可以通过将这些属性复制到一个新的对象中，并将其设置为新的状态来完成
