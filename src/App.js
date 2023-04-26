@@ -1,27 +1,40 @@
 import {useState} from "react";
-import Display from "./components/Display";
+import History from "./components/History";
 import Button from "./components/Button";
 
-const App = () => {
-  const [ counter, setCounter ] = useState(0);
 
-  const addByOne = () => {
-    return setCounter(counter + 1)
+function App() {
+  const [clicks, setClicks] = useState({
+    left: 0,
+    right: 0
+  })
+  const [allClicks, setAll] = useState([])
+
+  const handleLeftClick = () => {
+    setAll(allClicks.concat('L'))
+    const newClicks = {
+      ...clicks,
+      left: clicks.left + 1
+    }
+    setClicks(newClicks)
   }
-  const deleteByOne = () => {
-    return setCounter(counter - 1)
-  }
-  const zero = () => {
-    return setCounter(0)
+
+  const handleRightClick = () => {
+    setAll(allClicks.concat('R'))
+    const newClicks = {
+      ...clicks,
+      right: clicks.right + 1
+    }
+    setClicks(newClicks)
   }
 
   return (
     <div>
-      <h1>Greetings</h1>
-      <Display counter={counter} />
-      <Button onClick={addByOne} text="+ 1"></Button>
-      <Button onClick={deleteByOne} text="- 1"></Button>
-      <Button onClick={zero} text="0"></Button>
+      {clicks.left}
+      <Button onClick={handleLeftClick} text='left' />
+      {clicks.right}
+      <Button onClick={handleRightClick} text='right' />
+      <History allClicks={allClicks} />
     </div>
   )
 }
