@@ -488,3 +488,26 @@ export default App;
 ```
 
 *在React中是禁止直接改变状态的*，因为[它可能导致意想不到的副作用](https://stackoverflow.com/a/66799937/10012446)。改变状态必须始终通过将状态设置为一个新的对象来完成。如果前一个状态对象的属性没有改变，它们需要简单地复制，这可以通过将这些属性复制到一个新的对象中，并将其设置为新的状态来完成
+
+#### 事件处理
+
+事件处理程序必须始终是一个函数或对一个函数的引用。如果事件处理程序被设置为任何其他类型的变量，按钮将无法工作。
+
+```react
+import {useState} from "react";
+
+const App = () => {
+  const [value, setValue] = useState(10)
+
+  return (
+    <div>
+      {value}
+      <button onClick="handleClick" >reset to zero</button>
+    </div>
+  )
+}
+
+export default App;
+```
+
+这里的问题是我们的事件处理程序被定义为一个*函数调用*，这意味着事件处理程序实际上被分配了函数的返回值，在*console.log*的情况下是*未定义*。
